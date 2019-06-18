@@ -92,6 +92,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 @OP_ENABLE_EXAMPLES_TRUE@noinst_PROGRAMS =  \
+@OP_ENABLE_EXAMPLES_TRUE@	examples/ogg_opus_packet_parser$(EXEEXT) \
 @OP_ENABLE_EXAMPLES_TRUE@	examples/opusfile_example$(EXEEXT) \
 @OP_ENABLE_EXAMPLES_TRUE@	examples/seeking_example$(EXEEXT)
 @OP_ENABLE_HTTP_TRUE@@OP_WIN32_TRUE@am__append_1 = src/wincerts.c src/winerrno.h
@@ -173,6 +174,14 @@ libopusurl_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(libopusurl_la_CFLAGS) \
 	$(CFLAGS) $(libopusurl_la_LDFLAGS) $(LDFLAGS) -o $@
 PROGRAMS = $(noinst_PROGRAMS)
+am__examples_ogg_opus_packet_parser_SOURCES_DIST =  \
+	examples/ogg_opus_packet_parser.c examples/win32utf8.c \
+	examples/win32utf8.h
+am_examples_ogg_opus_packet_parser_OBJECTS =  \
+	examples/ogg_opus_packet_parser.$(OBJEXT) $(am__objects_2)
+examples_ogg_opus_packet_parser_OBJECTS =  \
+	$(am_examples_ogg_opus_packet_parser_OBJECTS)
+examples_ogg_opus_packet_parser_DEPENDENCIES = libopusurl.la libopusfile.la
 am__examples_opusfile_example_SOURCES_DIST =  \
 	examples/opusfile_example.c examples/win32utf8.c \
 	examples/win32utf8.h
@@ -225,10 +234,12 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(libopusfile_la_SOURCES) $(libopusurl_la_SOURCES) \
+	$(examples_ogg_opus_packet_parser_SOURCES) \
 	$(examples_opusfile_example_SOURCES) \
 	$(examples_seeking_example_SOURCES)
 DIST_SOURCES = $(libopusfile_la_SOURCES) \
 	$(am__libopusurl_la_SOURCES_DIST) \
+	$(am__examples_ogg_opus_packet_parser_SOURCES_DIST) \
 	$(am__examples_opusfile_example_SOURCES_DIST) \
 	$(am__examples_seeking_example_SOURCES_DIST)
 am__can_run_installinfo = \
@@ -434,10 +445,13 @@ libopusurl_la_LIBADD = libopusfile.la $(URL_DEPS_LIBS) $(am__append_2)
 libopusurl_la_LDFLAGS = -no-undefined \
  -version-info @OP_LT_CURRENT@:@OP_LT_REVISION@:@OP_LT_AGE@
 
+examples_ogg_opus_packet_parser_SOURCES = examples/ogg_opus_packet_parser.c \
+	$(am__append_3)
 examples_opusfile_example_SOURCES = examples/opusfile_example.c \
 	$(am__append_3)
 examples_seeking_example_SOURCES = examples/seeking_example.c \
 	$(am__append_4)
+examples_ogg_opus_packet_parser_LDADD = libopusurl.la libopusfile.la
 examples_opusfile_example_LDADD = libopusurl.la libopusfile.la
 examples_seeking_example_LDADD = libopusurl.la libopusfile.la
 pkgconfigdir = $(libdir)/pkgconfig
@@ -454,6 +468,8 @@ EXTRA_DIST = \
  win32/VS2015/opusfile.sln \
  win32/VS2015/opusfile.vcxproj \
  win32/VS2015/opusfile.vcxproj.filters \
+ win32/VS2015/ogg_opus_packet_parser.vcxproj \
+ win32/VS2015/ogg_opus_packet_parser.vcxproj.filters \
  win32/VS2015/opusfile_example.vcxproj \
  win32/VS2015/opusfile_example.vcxproj.filters \
  win32/VS2015/seeking_example.vcxproj \
@@ -594,11 +610,16 @@ examples/$(am__dirstamp):
 examples/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) examples/$(DEPDIR)
 	@: > examples/$(DEPDIR)/$(am__dirstamp)
+examples/ogg_opus_packet_parser.$(OBJEXT): examples/$(am__dirstamp) \
+	examples/$(DEPDIR)/$(am__dirstamp)
 examples/opusfile_example.$(OBJEXT): examples/$(am__dirstamp) \
 	examples/$(DEPDIR)/$(am__dirstamp)
 examples/win32utf8.$(OBJEXT): examples/$(am__dirstamp) \
 	examples/$(DEPDIR)/$(am__dirstamp)
 
+examples/ogg_opus_packet_parser$(EXEEXT): $(examples_ogg_opus_packet_parser_OBJECTS) $(examples_ogg_opus_packet_parser_DEPENDENCIES) $(EXTRA_examples_ogg_opus_packet_parser_DEPENDENCIES) examples/$(am__dirstamp)
+	@rm -f examples/ogg_opus_packet_parser$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(examples_ogg_opus_packet_parser_OBJECTS) $(examples_ogg_opus_packet_parser_LDADD) $(LIBS)
 examples/opusfile_example$(EXEEXT): $(examples_opusfile_example_OBJECTS) $(examples_opusfile_example_DEPENDENCIES) $(EXTRA_examples_opusfile_example_DEPENDENCIES) examples/$(am__dirstamp)
 	@rm -f examples/opusfile_example$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(examples_opusfile_example_OBJECTS) $(examples_opusfile_example_LDADD) $(LIBS)
@@ -618,6 +639,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@examples/$(DEPDIR)/ogg_opus_packet_parser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@examples/$(DEPDIR)/opusfile_example.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@examples/$(DEPDIR)/seeking_example.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@examples/$(DEPDIR)/win32utf8.Po@am__quote@

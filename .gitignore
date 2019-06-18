@@ -1,0 +1,13 @@
+.cproject
+.libs/
+.project
+.settings/
+examples/.deps/
+examples/.libs/
+examples/ogg_opus_packet_parser
+examples/opusfile_example
+examples/seeking_example
+*.la
+*.lo
+*.o
+src/.deps/

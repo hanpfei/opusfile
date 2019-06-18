@@ -23,11 +23,13 @@ libopusurl_la_LDFLAGS = -no-undefined \
  -version-info @OP_LT_CURRENT@:@OP_LT_REVISION@:@OP_LT_AGE@
 
 if OP_ENABLE_EXAMPLES
-noinst_PROGRAMS = examples/opusfile_example examples/seeking_example
+noinst_PROGRAMS = examples/ogg_opus_packet_parser examples/opusfile_example examples/seeking_example
 endif
 
+examples_ogg_opus_packet_parser_SOURCES = examples/ogg_opus_packet_parser.c
 examples_opusfile_example_SOURCES = examples/opusfile_example.c
 examples_seeking_example_SOURCES = examples/seeking_example.c
+examples_ogg_opus_packet_parser_LDADD = libopusfile.la
 examples_opusfile_example_LDADD = libopusurl.la libopusfile.la
 examples_seeking_example_LDADD = libopusurl.la libopusfile.la
 
@@ -36,6 +38,7 @@ if OP_ENABLE_HTTP
 libopusurl_la_SOURCES += src/wincerts.c src/winerrno.h
 libopusurl_la_LIBADD += -lws2_32 -lcrypt32
 endif
+examples_ogg_opus_packet_parser_SOURCES += examples/win32utf8.c examples/win32utf8.h
 examples_opusfile_example_SOURCES += examples/win32utf8.c examples/win32utf8.h
 examples_seeking_example_SOURCES += examples/win32utf8.c examples/win32utf8.h
 endif
@@ -58,6 +61,8 @@ EXTRA_DIST = \
  win32/VS2015/opusfile.sln \
  win32/VS2015/opusfile.vcxproj \
  win32/VS2015/opusfile.vcxproj.filters \
+ win32/VS2015/ogg_opus_packet_parser.vcxproj \
+ win32/VS2015/ogg_opus_packet_parser.vcxproj.filters \
  win32/VS2015/opusfile_example.vcxproj \
  win32/VS2015/opusfile_example.vcxproj.filters \
  win32/VS2015/seeking_example.vcxproj \
