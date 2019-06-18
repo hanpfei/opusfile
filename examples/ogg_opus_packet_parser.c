@@ -138,6 +138,7 @@ int main(int _argc, const char **_argv) {
   int ret;
   int is_ssl;
   int output_seekable;
+  FILE *wavfile = fopen("wavfile.wav", "w+");
 #if defined(_WIN32)
   win32_utf8_setup(&_argc,&_argv);
 #endif
@@ -218,7 +219,7 @@ int main(int _argc, const char **_argv) {
     fprintf(stderr, "Writing non-standard WAV header with invalid chunk sizes.\n");
   }
   make_wav_header(wav_header, duration);
-  if (!fwrite(wav_header, sizeof(wav_header), 1, stdout)) {
+  if (!fwrite(wav_header, sizeof(wav_header), 1, wavfile)) {
     fprintf(stderr, "Error writing WAV header: %s\n", strerror(errno));
     ret = EXIT_FAILURE;
   } else {
@@ -349,7 +350,7 @@ int main(int _argc, const char **_argv) {
         out[2 * si + 0] = (unsigned char) (pcm[si] & 0xFF);
         out[2 * si + 1] = (unsigned char) (pcm[si] >> 8 & 0xFF);
       }
-      if (!fwrite(out, sizeof(*out) * 4 * ret, 1, stdout)) {
+      if (!fwrite(out, sizeof(*out) * 4 * ret, 1, wavfile)) {
         fprintf(stderr, "\nError writing decoded audio data: %s\n", strerror(errno));
         ret = EXIT_FAILURE;
         break;
@@ -370,7 +371,7 @@ int main(int _argc, const char **_argv) {
     }
     if (output_seekable && nsamples != duration) {
       make_wav_header(wav_header, nsamples);
-      if (fseek(stdout, 0, SEEK_SET) || !fwrite(wav_header, sizeof(wav_header), 1, stdout)) {
+      if (fseek(stdout, 0, SEEK_SET) || !fwrite(wav_header, sizeof(wav_header), 1, wavfile)) {
         fprintf(stderr, "Error rewriting WAV header: %s\n", strerror(errno));
         ret = EXIT_FAILURE;
       }
